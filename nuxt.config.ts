@@ -24,7 +24,8 @@ export default defineNuxtConfig({
         cache: {
           maxAge: 60 * 60 * 24,
           base: 'redis'
-        }
+        },
+        prerender: true
       },
       '/api/**': {
         proxy: 'http://asmre.api.xycode.club:32357/**',

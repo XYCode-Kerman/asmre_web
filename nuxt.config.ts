@@ -19,9 +19,26 @@ export default defineNuxtConfig({
 
   nitro: {
     routeRules: {
+      '/**': {
+        ssr: true,
+        cache: {
+          maxAge: 60 * 60 * 24,
+          base: 'redis'
+        }
+      },
       '/api/**': {
-        proxy: process.env.BACKEND_URL,
-        cors: true,
+        proxy: 'http://asmre.api.xycode.club:32357/**',
+        // proxy: 'http://127.0.0.1:8000/**',
+        cors: true
+      }
+    },
+
+    storage: {
+      redis: {
+        driver: 'redis',
+        host: process.env.REDIS_HOST,
+        port: process.env.REDIS_PORT,
+        password: process.env.REDIS_PASSWORD,
       }
     }
   },

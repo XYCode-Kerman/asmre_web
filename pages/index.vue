@@ -70,23 +70,23 @@ const classCreateSchema = z.object({
     description: z.string()
 })
 
-const classes: Ref<Klass[]> = ref([])
+let classes: Ref<Klass[]> = ref([])
 const klassStats: Ref<{ [key: string]: KlassStats }> = ref({})
 
 const permissions = ref({
-    klassCreate: (await useFetch('/api/user/check?resource=/asmre/class&action=create')).status.value == 'success'
+    // klassCreate: (await useFetch('/api/user/check?resource=/asmre/class&action=create', { server: false })).status.value == 'success'
+    klassCreate: checkPermission('/asmre/class', 'create')
 })
 
 async function fetchClasses() {
     const resp = await useFetch('/api/classes/')
+    classes = resp.data as Ref<Klass[]>
 
-    async function fetchStat(classId: string) {
-        klassStats.value[classId] = await useFetch(`/api/classes/stats/${classId}`).data as unknown as KlassStats
-    }
+    // await Promise.all(_classes.map(async x => {
+    //     const resp = await useFetch(`/api/classes/stats/${x.id}`).data.value as KlassStats
 
-    classes.value = resp.data.value as unknown as Klass[]
-
-    await Promise.all(classes.value.map(x => fetchStat(x.id || x.name)))
+    //     _stats[x.id || x.name] = resp
+    // }))
 }
 
 async function fetchDatas() {
@@ -117,5 +117,5 @@ async function createClass(values: Record<string, any>) {
     await fetchClasses()
 }
 
-fetchDatas()
+await fetchDatas()
 </script>

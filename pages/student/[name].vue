@@ -32,7 +32,7 @@ const studentName = route.params.name
 const student = ((await useFetch('/api/student/')).data.value as Student[]).find(x => x.name == studentName) as Student
 const credit = (await useFetch(`/api/credit/${student.name}/credit`)).data.value as number
 const creditUpdates = (await useFetch(`/api/credit/${student.name}`)).data.value as CreditUpdate[]
-const allowCreate = (await useFetch(`/api/user/check?resource=/asmre/credit/${student.name}&action=create`)).data.value as boolean
-const allowUpdate = (await useFetch(`/api/user/check?resource=/asmre/credit/${student.name}&action=write`)).data.value as boolean
-const allowDelete = (await useFetch(`/api/user/check?resource=/asmre/credit/${student.name}&action=delete`)).data.value as boolean
+const allowCreate = (await useFetch(`/api/user/check?resource=/asmre/credit/${student.name}&action=create`, { server: false })).data as Ref<boolean>
+const allowUpdate = (await useFetch(`/api/user/check?resource=/asmre/credit/${student.name}&action=write`, { server: false })).data as Ref<boolean>
+const allowDelete = (await useFetch(`/api/user/check?resource=/asmre/credit/${student.name}&action=delete`, { server: false })).data as Ref<boolean>
 </script>

@@ -161,7 +161,7 @@ async function create() {
     newCreditUpdate.value.update_time = new Date().toISOString()
 
     // 验证权限
-    if (!checkPermission(`/asmre/credit/${newCreditUpdate.value.student.name}`, 'create')) {
+    if (!checkPermission(`/asmre/credit/${newCreditUpdate.value.student.name}`, 'create').value) {
         Swal.fire({
             title: '没有权限',
             icon: 'error'

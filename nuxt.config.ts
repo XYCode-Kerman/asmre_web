@@ -21,10 +21,6 @@ export default defineNuxtConfig({
     routeRules: {
       '/**': {
         ssr: true,
-        cache: {
-          maxAge: 60 * 60 * 24,
-          base: 'redis'
-        },
         prerender: true
       },
       '/api/**': {

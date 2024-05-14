@@ -1,18 +1,18 @@
 <template>
-    <div class="max-w-screen max-h-screen h-screen">
+    <div class="min-w-screen min-h-screen">
         <Header class="w-full max-w-none fixed top-0" />
 
-        <div class="h-screen py-20 px-4 overflow-scroll">
+        <div class="min-h-screen py-20 px-4 overflow-y-hidden">
             <slot />
         </div>
 
         <LayoutWaterMark />
 
-        <div class="right-4 top-2 absolute text-xs opacity-50 z-50">
+        <div class="right-4 top-2 fixed text-xs opacity-50 z-50">
             <div>{{ generated_time }}</div>
         </div>
 
-        <!-- <Footer /> -->
+        <LayoutFooter />
     </div>
 </template>
 

@@ -9,7 +9,7 @@
                 </CardDescription>
             </CardHeader>
 
-            <CardContent class="grid grid-cols-8">
+            <CardContent class="grid grid-cols-8 gap-2">
                 <StudentCard v-for="item in students" :id="item.id || item.name" :student="item" />
             </CardContent>
         </Card>

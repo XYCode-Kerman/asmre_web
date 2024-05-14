@@ -24,6 +24,13 @@ const route = useRoute()
 
 const klassId = route.params.id as string
 
-const klass = ((await useFetch(`/api/classes/`)).data.value as Klass[]).find(x => x.id == klassId)
-const students = (await useFetch(`/api/student/by/class/${klassId}`)).data.value as Student[]
+// const klass = ((await useFetch(`/api/classes/`)).data.value as Klass[]).find(x => x.id == klassId)
+// const students = (await useFetch(`/api/student/by/class/${klassId}`)).data.value as Student[]
+
+const [classes, students] = await Promise.all([
+    useFetch(`/api/classes`).data as Ref<Klass[]>,
+    useFetch(`/api/student/by/class/${klassId}`).data as Ref<Student[]>,
+])
+
+const klass = computed(() => classes.value.find(x => x.id == klassId))
 </script>

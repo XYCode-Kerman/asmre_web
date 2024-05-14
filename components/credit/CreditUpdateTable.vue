@@ -114,7 +114,6 @@ import Swal from 'sweetalert2';
 import type { ModelRef, PropType } from 'vue';
 import type { CreditUpdate } from '~/types/credit';
 import type { Student } from '~/types/student';
-import { checkPermission } from '~/utils/permission';
 import TableFooter from '../ui/table/TableFooter.vue';
 
 const creditUpdates = defineModel('creditUpdates') as ModelRef<CreditUpdate[]>
@@ -146,6 +145,21 @@ const props = defineProps({
 })
 
 async function create() {
+    const confirmAlert = await Swal.fire({
+        title: '您确认要提交吗？',
+        text: '如果权限不足，可能无法使用该功能',
+        icon: 'question',
+        showCancelButton: true
+    })
+
+    if (!confirmAlert.isConfirmed) {
+        Swal.fire({
+            title: '已取消',
+            icon: 'info'
+        })
+        return
+    }
+
     const student = props.allowOprationStudents.find(x => x.name == updateObj.value)
     if (student == undefined) {
         Swal.fire({
@@ -159,14 +173,6 @@ async function create() {
     newCreditUpdate.value.student = student
     newCreditUpdate.value.create_time = new Date().toISOString()
     newCreditUpdate.value.update_time = new Date().toISOString()
-
-    // 验证权限
-    if (!checkPermission(`/asmre/credit/${newCreditUpdate.value.student.name}`, 'create').value) {
-        Swal.fire({
-            title: '没有权限',
-            icon: 'error'
-        })
-    }
 
     const resp = await useFetch(`/api/credit/`, {
         method: 'POST',

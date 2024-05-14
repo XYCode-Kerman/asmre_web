@@ -14,7 +14,9 @@ export default defineNuxtConfig({
           integrity: 'sha384-jnZyxPjiipYXnSU0ygqeac2q7CVYMbh84q0uHVRRxEtvFPiQYbXWUorga2aqZJ0z'
         }
       ]
-    }
+    },
+    pageTransition: { name: 'page', mode: 'out-in' },
+    layoutTransition: { name: 'layout', mode: 'out-in' }
   },
 
   nitro: {
@@ -43,6 +45,10 @@ export default defineNuxtConfig({
   shadcn: {
     prefix: '',
     componentDir: './components/ui'
+  },
+
+  build: {
+    analyze: true
   },
 
   modules: ["@nuxtjs/tailwindcss", "shadcn-nuxt"]

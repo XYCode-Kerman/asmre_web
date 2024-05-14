@@ -57,7 +57,6 @@ const formSchema = z.object({
 }).required();
 
 async function submit(msg: Record<string, any>) {
-    console.log(msg)
     let data: CreditUpdate = {
         type: msg.type,
         number: msg.number,
@@ -76,7 +75,7 @@ async function submit(msg: Record<string, any>) {
         Swal.fire({
             icon: 'error',
             title: '保存失败',
-            text: resp.data.detail.toString(),
+            text: resp.data.toString(),
         })
         return
     }

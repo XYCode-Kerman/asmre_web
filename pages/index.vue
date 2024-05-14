@@ -74,19 +74,12 @@ let classes: Ref<Klass[]> = ref([])
 const klassStats: Ref<{ [key: string]: KlassStats }> = ref({})
 
 const permissions = ref({
-    // klassCreate: (await useFetch('/api/user/check?resource=/asmre/class&action=create', { server: false })).status.value == 'success'
     klassCreate: checkPermission('/asmre/class', 'create')
 })
 
 async function fetchClasses() {
     const resp = await useFetch('/api/classes/')
     classes = resp.data as Ref<Klass[]>
-
-    // await Promise.all(_classes.map(async x => {
-    //     const resp = await useFetch(`/api/classes/stats/${x.id}`).data.value as KlassStats
-
-    //     _stats[x.id || x.name] = resp
-    // }))
 }
 
 async function fetchDatas() {

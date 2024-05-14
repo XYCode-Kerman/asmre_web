@@ -22,17 +22,50 @@
 </template>
 
 <script lang="ts" setup>
+import Swal from 'sweetalert2';
 import { useRoute } from 'vue-router';
 import type { CreditUpdate } from '~/types/credit';
 import type { Student } from '~/types/student';
 
 const route = useRoute()
 
-const studentName = route.params.name
-const student = ((await useFetch('/api/student/')).data.value as Student[]).find(x => x.name == studentName) as Student
-const credit = (await useFetch(`/api/credit/${student.name}/credit`)).data.value as number
-const creditUpdates = (await useFetch(`/api/credit/${student.name}`)).data.value as CreditUpdate[]
-const allowCreate = (await useFetch(`/api/user/check?resource=/asmre/credit/${student.name}&action=create`, { server: false })).data as Ref<boolean>
-const allowUpdate = (await useFetch(`/api/user/check?resource=/asmre/credit/${student.name}&action=write`, { server: false })).data as Ref<boolean>
-const allowDelete = (await useFetch(`/api/user/check?resource=/asmre/credit/${student.name}&action=delete`, { server: false })).data as Ref<boolean>
+let studentName = route.params.name
+if (typeof studentName == 'object') {
+    studentName = studentName[0]
+}
+
+const [allowCreate, allowUpdate, allowDelete, students, credit, creditUpdates] = await Promise.all([
+    checkPermission(`/asmre/credit/${studentName}`, 'create'),
+    checkPermission(`/asmre/credit/${studentName}`, 'write'),
+    checkPermission(`/asmre/credit/${studentName}`, 'delete'),
+    useFetch('/api/student').data as Ref<Student[]>,
+    useFetch(`/api/credit/${studentName}/credit`).data as Ref<number>,
+    useFetch(`/api/credit/${studentName}`).data as Ref<CreditUpdate[]>
+])
+
+const student = computed((): Student => {
+    if (students.value == undefined) {
+        return {
+            name: studentName,
+            school_class: {
+                name: '获取中',
+                description: '获取中'
+            },
+            user: {
+                username: '获取中',
+                nickname: '获取中',
+                password: '获取中',
+                avatar: '获取中'
+            }
+        }
+    }
+
+    const result = students.value.find(x => x.name == studentName)
+    if (result == undefined) {
+        Swal.fire('调用出错', '找不到学生', 'error')
+        return {} as Student
+    }
+
+    return result
+})
 </script>

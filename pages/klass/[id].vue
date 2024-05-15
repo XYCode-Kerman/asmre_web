@@ -32,5 +32,11 @@ const [classes, students] = await Promise.all([
     useFetch(`/api/student/by/class/${klassId}`).data as Ref<Student[]>,
 ])
 
-const klass = computed(() => classes.value.find(x => x.id == klassId))
+const klass = computed(() => {
+    if (classes.value == undefined) {
+        return undefined
+    }
+
+    return classes.value.find(x => x.id == klassId)
+})
 </script>

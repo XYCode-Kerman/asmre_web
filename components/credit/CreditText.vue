@@ -1,5 +1,5 @@
 <template>
-    <div v-text="credit" :class="{
+    <div v-text="credit.toLocaleString()" :class="{
         'text-red-500': credit < 0,
         'text-green-500': credit > 0,
         'text-foreground': credit == 0

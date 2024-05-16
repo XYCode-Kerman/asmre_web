@@ -4,7 +4,8 @@
             <CardContent
                 class="flex justify-center items-center h-full p-0 gap-2 hover:bg-zinc-100 duration-100 cursor-pointer group">
                 <StudentName :student="student" />
-                <CreditText :credit="credit" class="text-4xl font-bold absolute opacity-50 group-hover:opacity-100" />
+                <CreditText :credit="student.credit"
+                    class="text-4xl font-bold absolute opacity-50 group-hover:opacity-100" />
             </CardContent>
         </Card>
     </NuxtLink>
@@ -20,6 +21,4 @@ const props = defineProps({
         required: true
     }
 })
-
-const credit = (await useFetch(`/api/credit/${props.student.name}/credit`)).data.value as number
 </script>

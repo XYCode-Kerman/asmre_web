@@ -1,4 +1,3 @@
-
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
@@ -22,12 +21,11 @@ export default defineNuxtConfig({
   nitro: {
     routeRules: {
       '/**': {
-        ssr: true,
-        prerender: true
+        ssr: true
       },
-      '/api/**': {
+      '/asmre-api/**': {
         proxy: 'http://asmre.api.xycode.club:32357/**',
-        // proxy: 'http://127.0.0.1:8000/**',
+        // proxy: 'http://localhost:8000/**',
         cors: true
       }
     },
@@ -51,5 +49,5 @@ export default defineNuxtConfig({
     analyze: true
   },
 
-  modules: ["@nuxtjs/tailwindcss", "shadcn-nuxt"]
+  modules: ["@nuxtjs/tailwindcss", "shadcn-nuxt", "@nuxt/content"]
 })

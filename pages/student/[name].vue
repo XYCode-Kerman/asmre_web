@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="student != undefined && credit != undefined">
         <Card>
             <CardHeader>
                 <CardTitle class="flex gap-2 items-center">
@@ -19,10 +19,13 @@
             </CardContent>
         </Card>
     </div>
+
+    <div v-else>
+        加载中
+    </div>
 </template>
 
 <script lang="ts" setup>
-import Swal from 'sweetalert2';
 import { useRoute } from 'vue-router';
 import type { CreditUpdate } from '~/types/credit';
 import type { Student } from '~/types/student';
@@ -38,34 +41,14 @@ const [allowCreate, allowUpdate, allowDelete, students, credit, creditUpdates] =
     checkPermission(`/asmre/credit/${studentName}`, 'create'),
     checkPermission(`/asmre/credit/${studentName}`, 'write'),
     checkPermission(`/asmre/credit/${studentName}`, 'delete'),
-    useFetch('/api/student').data as Ref<Student[]>,
-    useFetch(`/api/credit/${studentName}/credit`).data as Ref<number>,
-    useFetch(`/api/credit/${studentName}`).data as Ref<CreditUpdate[]>
+    useFetch(`/asmre-api/student/by/name/${studentName}`).data as Ref<Student[]>,
+    useFetch(`/asmre-api/credit/${studentName}/credit`).data as Ref<number>,
+    useFetch(`/asmre-api/credit/${studentName}`).data as Ref<CreditUpdate[]>
 ])
 
-const student = computed((): Student => {
+const student = computed(() => {
     if (students.value == undefined) {
-        return {
-            name: studentName,
-            school_class: {
-                name: '获取中',
-                description: '获取中'
-            },
-            user: {
-                username: '获取中',
-                nickname: '获取中',
-                password: '获取中',
-                avatar: '获取中'
-            }
-        }
-    }
-
-    const result = students.value.find(x => x.name == studentName)
-    if (result == undefined) {
-        Swal.fire('调用出错', '找不到学生', 'error')
-        return {} as Student
-    }
-
-    return result
+        return undefined
+    } else return students.value[0]
 })
 </script>

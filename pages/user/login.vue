@@ -39,7 +39,7 @@ let username = ref('')
 let password = ref('')
 
 async function login() {
-    const resp = await useFetch(`/api/user/login?username=${username.value}&password=${password.value}`, {
+    const resp = await useFetch(`/asmre-api/user/login?username=${username.value}&password=${password.value}`, {
         method: 'POST'
     })
 

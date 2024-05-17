@@ -9,7 +9,7 @@
                 </CardDescription>
             </CardHeader>
 
-            <CardContent class="grid grid-cols-8 gap-2">
+            <CardContent class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">
                 <StudentCard v-for="item in students" :id="item.id || item.name" :student="item" />
             </CardContent>
         </Card>
@@ -24,12 +24,9 @@ const route = useRoute()
 
 const klassId = route.params.id as string
 
-// const klass = ((await useFetch(`/api/classes/`)).data.value as Klass[]).find(x => x.id == klassId)
-// const students = (await useFetch(`/api/student/by/class/${klassId}`)).data.value as Student[]
-
 const [classes, students] = await Promise.all([
-    useFetch(`/api/classes`).data as Ref<Klass[]>,
-    useFetch(`/api/student/by/class/${klassId}`).data as Ref<Student[]>,
+    useFetch(`/asmre-api/classes`).data as Ref<Klass[]>,
+    useFetch(`/asmre-api/student/by/class/${klassId}`).data as Ref<Student[]>,
 ])
 
 const klass = computed(() => {

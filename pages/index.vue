@@ -1,5 +1,5 @@
 <template>
-    <div class="grid grid-cols-4 gap-4">
+    <div class="grid grid-cols-4 gap-4" v-if="classes && klassStats">
         <!-- 班级列表 -->
         <Card v-for="item in classes" :key="item.id || item.name">
             <CardHeader>
@@ -22,7 +22,7 @@
         </Card>
 
         <!-- 创建班级 -->
-        <Card v-if="permissions.klassCreate">
+        <Card v-if="klassCreatePermission">
             <CardHeader>
                 <CardTitle>创建班级</CardTitle>
                 <CardDescription>需要您有
@@ -48,6 +48,9 @@
             </CardContent>
         </Card>
     </div>
+    <div class="grid grid-cols-4 gap-4" v-else>
+        <Skeleton class="w-74 h-64 rounded-md" v-for="item in [...Array(4).keys()]" />
+    </div>
 </template>
 
 <script lang="ts" setup>
@@ -70,24 +73,15 @@ const classCreateSchema = z.object({
     description: z.string()
 })
 
-let classes: Ref<Klass[]> = ref([])
+let classes: Ref<Klass[]> = useFetch('/asmre-api/classes/').data as Ref<Klass[]>
+let klassCreatePermission = checkPermission('/asmre/class', 'create')
+
+// 废弃代码
 const klassStats: Ref<{ [key: string]: KlassStats }> = ref({})
 
-const permissions = ref({
-    klassCreate: checkPermission('/asmre/class', 'create')
-})
-
-async function fetchClasses() {
-    const resp = await useFetch('/api/classes/')
-    classes = resp.data as Ref<Klass[]>
-}
-
-async function fetchDatas() {
-    await Promise.all([fetchClasses()])
-}
 
 async function createClass(values: Record<string, any>) {
-    const resp = await useFetch('/api/classes/', {
+    const resp = await useFetch('/asmre-api/classes/', {
         method: 'POST',
         body: values
     })
@@ -101,14 +95,12 @@ async function createClass(values: Record<string, any>) {
         return
     }
 
-    Swal.fire({
+    await Swal.fire({
         icon: 'success',
         title: '创建班级成功',
         text: '班级创建成功'
     })
 
-    await fetchClasses()
+    useRouter().go(0)
 }
-
-await fetchDatas()
 </script>

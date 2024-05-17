@@ -17,6 +17,15 @@
                 </NuxtLink>
             </MenubarContent>
         </MenubarMenu>
+
+        <MenubarMenu>
+            <MenubarTrigger>其他</MenubarTrigger>
+            <MenubarContent>
+                <NuxtLink to="/third-party-info">
+                    <MenubarItem>第三方版权信息</MenubarItem>
+                </NuxtLink>
+            </MenubarContent>
+        </MenubarMenu>
     </Menubar>
 </template>
 

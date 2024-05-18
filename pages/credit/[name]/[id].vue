@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="student != undefined && credit != undefined">
         <Card>
             <CardHeader>
                 <CardTitle class="flex gap-2 items-center">
@@ -35,6 +35,18 @@
             </CardContent>
         </Card>
     </div>
+
+    <div v-else>
+        <Card>
+            <CardHeader>
+                <Skeleton class="h-10" />
+            </CardHeader>
+
+            <CardContent>
+                <Skeleton class="h-40" />
+            </CardContent>
+        </Card>
+    </div>
 </template>
 
 <script lang="ts" setup>
@@ -46,14 +58,17 @@ import type { Student } from '~/types/student';
 const studentName = useRoute().params.name;
 const creditUpdateId = useRoute().params.id;
 
-const student = ((await useCustomFetch('/student/')).data.value as Student[]).find(x => x.name == studentName) as Student
-const credit = (await useCustomFetch(`/credit/${student.name}/credit`)).data.value as number
-const creditUpdate = ((await useCustomFetch(`/credit/${studentName}`)).data.value as CreditUpdate[]).find(x => x.id == creditUpdateId) as CreditUpdate
+const _students = useCustomLazyFetch('/student/').data as Ref<Student[] | undefined>
+const credit = useCustomLazyFetch(`/credit/${studentName}/credit`).data as Ref<number | undefined>
+const _creditUpdates = useCustomLazyFetch(`/credit/${studentName}`).data as Ref<CreditUpdate[] | undefined>
+
+const student = computed(() => _students.value?.find(x => x.name == studentName) as Student | undefined)
+const creditUpdate = computed(() => _creditUpdates.value?.find(x => x.id == creditUpdateId) as CreditUpdate | undefined)
 
 const formSchema = z.object({
-    type: z.enum(['add', 'reduce']).default(creditUpdate.type),
-    number: z.number().positive().default(creditUpdate.number),
-    reason: z.string().default(creditUpdate.reason)
+    type: z.enum(['add', 'reduce']).default(creditUpdate.value?.type || 'add'),
+    number: z.number().positive().default(creditUpdate.value?.number || 0),
+    reason: z.string().default(creditUpdate.value?.reason || '')
 }).required();
 
 async function submit(msg: Record<string, any>) {
@@ -61,9 +76,9 @@ async function submit(msg: Record<string, any>) {
         type: msg.type,
         number: msg.number,
         reason: msg.reason,
-        create_time: creditUpdate.create_time,
+        create_time: creditUpdate.value?.create_time || '未定义',
         update_time: new Date().toISOString(),
-        student: student
+        student: student.value as Student
     }
 
     const resp = await useCustomFetch(`/credit/${creditUpdateId}`, {

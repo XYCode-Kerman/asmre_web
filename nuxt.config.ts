@@ -22,11 +22,6 @@ export default defineNuxtConfig({
     routeRules: {
       '/**': {
         ssr: true
-      },
-      '/asmre-api/**': {
-        proxy: 'http://asmre.api.xycode.club:32357/**',
-        // proxy: 'http://localhost:8000/**',
-        cors: true
       }
     },
 

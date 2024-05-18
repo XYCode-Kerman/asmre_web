@@ -31,7 +31,8 @@ export default defineNuxtConfig({
       },
       '/contents/**': {
         isr: true,
-        prerender: true
+        prerender: true,
+        static: true
       }
     },
 

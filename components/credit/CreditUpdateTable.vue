@@ -174,7 +174,7 @@ async function create() {
     newCreditUpdate.value.create_time = new Date().toISOString()
     newCreditUpdate.value.update_time = new Date().toISOString()
 
-    const resp = await useFetch(`/asmre-api/credit/`, {
+    const resp = await useCustomFetch(`/credit/`, {
         method: 'POST',
         body: newCreditUpdate
     })
@@ -196,7 +196,7 @@ async function create() {
 }
 
 async function deleteItem(updateId: string) {
-    const resp = await useFetch(`/asmre-api/credit/${updateId}`, {
+    const resp = await useCustomFetch(`/credit/${updateId}`, {
         method: 'DELETE',
         body: {}
     })

@@ -10,7 +10,8 @@ const props = defineProps<SkeletonProps>()
 </script>
 
 <template>
-  <div :class="cn('animate-pulse rounded-md bg-muted flex items-center justify-center text-sm font-bold', props.class)">
+  <div
+    :class="cn('animate-pulse rounded-md bg-muted flex items-center justify-center text-xs font-semibold', props.class)">
     Loading...
   </div>
 </template>

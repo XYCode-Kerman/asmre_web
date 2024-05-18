@@ -22,6 +22,10 @@ export default defineNuxtConfig({
     routeRules: {
       '/**': {
         ssr: true
+      },
+      '/contents/**': {
+        isr: true,
+        prerender: true
       }
     },
 

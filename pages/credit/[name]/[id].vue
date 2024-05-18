@@ -46,9 +46,9 @@ import type { Student } from '~/types/student';
 const studentName = useRoute().params.name;
 const creditUpdateId = useRoute().params.id;
 
-const student = ((await useFetch('/asmre-api/student/')).data.value as Student[]).find(x => x.name == studentName) as Student
-const credit = (await useFetch(`/asmre-api/credit/${student.name}/credit`)).data.value as number
-const creditUpdate = ((await useFetch(`/asmre-api/credit/${studentName}`)).data.value as CreditUpdate[]).find(x => x.id == creditUpdateId) as CreditUpdate
+const student = ((await useCustomFetch('/student/')).data.value as Student[]).find(x => x.name == studentName) as Student
+const credit = (await useCustomFetch(`/credit/${student.name}/credit`)).data.value as number
+const creditUpdate = ((await useCustomFetch(`/credit/${studentName}`)).data.value as CreditUpdate[]).find(x => x.id == creditUpdateId) as CreditUpdate
 
 const formSchema = z.object({
     type: z.enum(['add', 'reduce']).default(creditUpdate.type),
@@ -66,7 +66,7 @@ async function submit(msg: Record<string, any>) {
         student: student
     }
 
-    const resp = await useFetch(`/asmre-api/credit/${creditUpdateId}`, {
+    const resp = await useCustomFetch(`/credit/${creditUpdateId}`, {
         method: 'PUT',
         body: data
     })

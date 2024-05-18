@@ -50,5 +50,5 @@
 import type { User } from '@/types/user';
 import Skeleton from '~/components/ui/skeleton/Skeleton.vue';
 
-const user = useFetch('/asmre-api/user/me', { lazy: true }).data as Ref<User | undefined>
+const user = useCustomLazyFetch('/user/me').data as Ref<User | undefined>
 </script>

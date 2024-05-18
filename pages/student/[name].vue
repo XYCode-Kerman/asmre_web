@@ -41,9 +41,9 @@ const [allowCreate, allowUpdate, allowDelete, students, credit, creditUpdates] =
     checkPermission(`/asmre/credit/${studentName}`, 'create'),
     checkPermission(`/asmre/credit/${studentName}`, 'write'),
     checkPermission(`/asmre/credit/${studentName}`, 'delete'),
-    useFetch(`/asmre-api/student/by/name/${studentName}`).data as Ref<Student[]>,
-    useFetch(`/asmre-api/credit/${studentName}/credit`).data as Ref<number>,
-    useFetch(`/asmre-api/credit/${studentName}`).data as Ref<CreditUpdate[]>
+    useCustomFetch(`/student/by/name/${studentName}`).data as Ref<Student[]>,
+    useCustomFetch(`/credit/${studentName}/credit`).data as Ref<number>,
+    useCustomFetch(`/credit/${studentName}`).data as Ref<CreditUpdate[]>
 ])
 
 const student = computed(() => {

@@ -1,5 +1,5 @@
 <template>
-    <div class="grid grid-cols-4 gap-4" v-if="classes && klassStats">
+    <div class="grid grid-cols-4 gap-4" v-if="classes != undefined">
         <!-- 班级列表 -->
         <Card v-for="item in classes" :key="item.id || item.name">
             <CardHeader>
@@ -73,7 +73,7 @@ const classCreateSchema = z.object({
     description: z.string()
 })
 
-let classes: Ref<Klass[]> = useFetch('/asmre-api/classes/').data as Ref<Klass[]>
+let classes = useCustomFetch('/classes/').data as Ref<Klass[]>
 let klassCreatePermission = checkPermission('/asmre/class', 'create')
 
 // 废弃代码
@@ -81,7 +81,7 @@ const klassStats: Ref<{ [key: string]: KlassStats }> = ref({})
 
 
 async function createClass(values: Record<string, any>) {
-    const resp = await useFetch('/asmre-api/classes/', {
+    const resp = await useCustomFetch('/classes/', {
         method: 'POST',
         body: values
     })

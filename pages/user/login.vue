@@ -43,6 +43,10 @@ async function login() {
         method: 'POST'
     })
 
+    useCookie('token', {
+        expires: new Date(7 * 24 * 60 * 60 * 1000 + new Date().getTime()), // 7 days
+    }).value = resp.data.value
+
     if (resp.status.value == 'error') {
         Swal.fire({
             icon: 'error',

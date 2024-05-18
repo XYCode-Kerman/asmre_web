@@ -2,7 +2,7 @@ import type { UseFetchOptions } from "#app"
 
 export const useCustomFetch = (request: string | Ref<string>, opts?: UseFetchOptions<any, any, any, any>) => {
     return useFetch(request, {
-        baseURL: 'https://asmre.api.xycode.club:32357/',
+        baseURL: useRuntimeConfig().public.baseURL,
         headers: {
             'X-Token': useCookie('token').value || 'NO TOKEN'
         },

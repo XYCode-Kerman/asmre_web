@@ -39,7 +39,7 @@ const route = useRoute()
 const klassId = route.params.id as string
 
 const [classes, students] = await Promise.all([
-    useCustomLazyFetch('/classes').data as Ref<Klass[] | undefined>,
+    useCustomLazyFetch('/classes/').data as Ref<Klass[] | undefined>,
     useCustomLazyFetch(`/student/by/class/${klassId}`).data as Ref<Student[] | undefined>,
 ])
 

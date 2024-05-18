@@ -18,6 +18,12 @@ export default defineNuxtConfig({
     layoutTransition: { name: 'layout', mode: 'out-in' }
   },
 
+  runtimeConfig: {
+    public: {
+      baseURL: process.env.BACKEND_BASE_URL || 'https://asmre.api.xycode.club/'
+    }
+  },
+
   nitro: {
     routeRules: {
       '/**': {

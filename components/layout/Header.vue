@@ -21,6 +21,14 @@
         <MenubarMenu>
             <MenubarTrigger>其他</MenubarTrigger>
             <MenubarContent>
+                <NuxtLink to="/contents/term-use">
+                    <MenubarItem>使用条款</MenubarItem>
+                </NuxtLink>
+
+                <NuxtLink to="/contents/privacy-term">
+                    <MenubarItem>隐私政策</MenubarItem>
+                </NuxtLink>
+
                 <NuxtLink to="/contents/third-party-info">
                     <MenubarItem>第三方版权信息</MenubarItem>
                 </NuxtLink>

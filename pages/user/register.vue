@@ -84,7 +84,7 @@ let nickname = ref('')
 let avatar = ref('')
 
 async function register() {
-    const resp = await useFetch('/asmre-api/user/register', {
+    const resp = await useCustomFetch('/user/register', {
         method: 'POST',
         body: {
             'username': username.value,

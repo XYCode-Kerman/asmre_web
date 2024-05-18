@@ -25,8 +25,8 @@ const route = useRoute()
 const klassId = route.params.id as string
 
 const [classes, students] = await Promise.all([
-    useFetch(`/asmre-api/classes`).data as Ref<Klass[]>,
-    useFetch(`/asmre-api/student/by/class/${klassId}`).data as Ref<Student[]>,
+    useCustomFetch('/classes').data as Ref<Klass[]>,
+    useCustomFetch(`/student/by/class/${klassId}`).data as Ref<Student[]>,
 ])
 
 const klass = computed(() => {

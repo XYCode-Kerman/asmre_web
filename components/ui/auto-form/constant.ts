@@ -18,7 +18,7 @@ export const INPUT_COMPONENTS = {
   string: AutoFormFieldInput,
   file: AutoFormFieldFile,
   array: AutoFormFieldArray,
-  object: AutoFormFieldObject,
+  object: AutoFormFieldObject
 }
 
 /**

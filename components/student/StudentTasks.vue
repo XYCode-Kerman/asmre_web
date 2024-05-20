@@ -3,7 +3,13 @@
         <!-- 已有 -->
         <Card v-for="task in tasks" class="shadow-md rounded-lg border-none col-span-2">
             <CardHeader>
-                <CardTitle>任务 {{ task.id?.substring(0, 6) }}...</CardTitle>
+                <CardTitle class="flex items-center">
+                    <div>任务 {{ task.id?.substring(0, 6) }}...</div>
+                    <div class="grow"></div>
+                    <div>
+                        <Button class="bg-red-500 hover:bg-red-600" @click="onDelete(task.id)">删除</Button>
+                    </div>
+                </CardTitle>
             </CardHeader>
             <CardContent>
                 <Table>
@@ -64,6 +70,7 @@
 </template>
 
 <script lang="ts" setup>
+import Swal from 'sweetalert2';
 import type { PropType } from 'vue';
 import type { Student, Task } from '~/types/student';
 
@@ -81,6 +88,58 @@ const props = defineProps({
         required: true
     }
 })
+
+async function onDelete(taskId: string | undefined) {
+    // 特判
+    if (taskId == undefined) {
+        Swal.fire({
+            icon: 'error',
+            title: '错误',
+            text: '任务ID不能为空',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: '关闭',
+        })
+
+        return
+    }
+
+    // 删除流程
+    const confirm = await Swal.fire({
+        title: '确定删除吗？',
+        text: "您将无法恢复此任务！",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: '删除',
+        cancelButtonText: '取消',
+    })
+
+    if (!confirm.isConfirmed) {
+        Swal.fire('已取消', '删除已取消，内容将不会变更', 'info')
+        return
+    }
+
+    const resp = await useCustomFetch(`/task/${taskId}`, {
+        method: 'DELETE'
+    })
+
+    if (resp.status.value != 'success') {
+        Swal.fire({
+            icon: 'error',
+            title: '删除失败',
+            text: resp.data.value || '未知错误',
+        })
+    } else {
+        await Swal.fire({
+            icon: 'success',
+            title: '删除成功',
+            text: '任务已删除',
+        })
+
+        useRouter().go(0)
+    }
+}
 </script>
 
 <style scoped>

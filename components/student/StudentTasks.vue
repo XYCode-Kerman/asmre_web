@@ -7,7 +7,8 @@
                     <div>任务 {{ task.id?.substring(0, 6) }}...</div>
                     <div class="grow"></div>
                     <div>
-                        <Button class="bg-red-500 hover:bg-red-600" @click="onDelete(task.id)">删除</Button>
+                        <Button v-if="checkPermission(`/asmre/task/${task.id}`, 'delete')"
+                            class="bg-red-500 hover:bg-red-600" @click="onDelete(task.id)">删除</Button>
                     </div>
                 </CardTitle>
             </CardHeader>

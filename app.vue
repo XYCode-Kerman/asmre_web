@@ -1,10 +1,15 @@
 <template>
-  <NuxtLayout>
-    <NuxtPage />
-  </NuxtLayout>
+  <ConfigProvider :use-id="useIdFunction">
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
+  </ConfigProvider>
 </template>
 
 <script setup>
+import { ConfigProvider } from 'radix-vue';
+
+const useIdFunction = () => useId()
 </script>
 
 <style>

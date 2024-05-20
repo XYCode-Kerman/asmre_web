@@ -1,7 +1,7 @@
 <template>
     <div class="grid grid-cols-4 gap-4">
         <!-- 已有 -->
-        <Card v-for="task in tasks" :key="task.id" class="shadow-md rounded-lg border-none col-span-2">
+        <Card v-for="task in tasks" class="shadow-md rounded-lg border-none col-span-2">
             <CardHeader>
                 <CardTitle>任务 {{ task.id?.substring(0, 6) }}...</CardTitle>
             </CardHeader>
@@ -44,7 +44,7 @@
         </Card>
 
         <!-- 新增 -->
-        <StudentNewTask :student="student" class="shadow-md rounded-lg p-4" />
+        <StudentNewTask v-if="allowCreateTask" :student="student" class="shadow-md rounded-lg p-4" />
     </div>
 </template>
 

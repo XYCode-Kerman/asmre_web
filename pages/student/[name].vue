@@ -15,7 +15,7 @@
 
             <CardContent>
                 <Divider>任务表</Divider>
-                <StudentTasks :student="student" :allowCreateTask="allowCreateTask" :tasks="tasks" v-if="tasks" />
+                <StudentTasks :student="student" :allowCreateTask="allowCreateTask" :tasks="tasks" />
 
                 <Divider class="mt-8">操行分加减</Divider>
                 <CreditUpdateTable :allowCreate="allowCreateCU" :allowUpdate="allowUpdateCU"
@@ -59,6 +59,13 @@ const student = computed(() => {
 
 const [allowCreateTask, tasks] = [
     checkPermission(`/asmre/task`, 'create'),
-    useCustomFetch(`/task/by/student/${student.value?.id}`).data as Ref<Task[] | null | undefined>
+    useCustomFetch(`/task/by/student/name/${studentName}`).data as Ref<Task[]>
+    // useFetch(`https://asmre.api.xycode.club/task/`).data
 ]
+
+if (process.server) {
+    console.log('server', tasks)
+} else {
+    console.log('client', tasks)
+}
 </script>

@@ -36,6 +36,14 @@
             </TableBody>
         </Table>
     </div>
+    <div v-else-if="useCookie('token').value == undefined">
+        <p class="text-center text-xl font-bold">您尚未登录</p>
+
+        <NuxtLink to="/user/login-and-register">
+            <Button
+                class="mt-4 w-full bg-background text-foreground hover:bg-slate-200 border-slate-500 border">登录或注册</Button>
+        </NuxtLink>
+    </div>
     <div v-else class="flex flex-col gap-8">
         <div class="flex gap-2 items-center">
             <Skeleton class="w-16 h-16 rounded-lg" />

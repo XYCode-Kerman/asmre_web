@@ -9,6 +9,17 @@
                 <Table>
                     <TableBody>
                         <TableRow>
+                            <TableCell class="font-bold">状态</TableCell>
+                            <TableCell class="font-bold text-xl">
+                                <span class="text-green-500" v-if="task.completed">已完成</span>
+                                <span class="text-red-500"
+                                    v-if="!task.completed && new Date(task.deadline) <= new Date()">超时且未完成</span>
+                                <span class="text-blue-500"
+                                    v-if="!task.completed && new Date(task.deadline) > new Date()">进行中</span>
+                            </TableCell>
+                        </TableRow>
+
+                        <TableRow>
                             <TableCell class="font-bold">内容</TableCell>
                             <TableCell>{{ task.content }}</TableCell>
                         </TableRow>
@@ -23,7 +34,9 @@
                             <TableCell>{{ task.completed }}</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow :class="{
+                            'bg-yellow-100': task.completed && new Date(task.deadline) > new Date(), // 任务完成且未过期时应当显示黄色背景
+                        }" class="rounded-lg">
                             <TableCell class="font-bold">完成时动作</TableCell>
                             <TableCell class="grid grid-cols-4 gap-4">
                                 <StudentTaskAction v-for="action in task.actions_when_completed" :action="action"
@@ -31,7 +44,9 @@
                             </TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow :class="{
+                            'bg-yellow-100': !task.completed && new Date(task.deadline) < new Date(), // 任务未完成且已过期时应当显示黄色背景
+                        }" class="rounded-lg">
                             <TableCell class="font-bold">未完成/失败时动作</TableCell>
                             <TableCell class="grid grid-cols-4 gap-4">
                                 <StudentTaskAction v-for="action in task.actions_when_not_completed" :action="action"

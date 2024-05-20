@@ -5,14 +5,7 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: 'Reborn - Atomic Student Manager',
-      script: [
-        {
-          src: '//instant.page/5.2.0',
-          type: 'module',
-          integrity: 'sha384-jnZyxPjiipYXnSU0ygqeac2q7CVYMbh84q0uHVRRxEtvFPiQYbXWUorga2aqZJ0z'
-        }
-      ]
+      title: 'Reborn - Atomic Student Manager'
     },
     pageTransition: { name: 'page', mode: 'out-in' },
     layoutTransition: { name: 'layout', mode: 'out-in' }

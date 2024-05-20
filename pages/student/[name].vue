@@ -14,8 +14,13 @@
             </CardHeader>
 
             <CardContent>
-                <CreditUpdateTable :allowCreate="allowCreate" :allowUpdate="allowUpdate" :allowDelete="allowDelete"
-                    v-model:credit="credit" v-model:creditUpdates="creditUpdates" :allowOprationStudents="[student]" />
+                <Divider>任务表</Divider>
+                <StudentTasks :student="student" :allowCreateTask="allowCreateTask" :tasks="tasks" />
+
+                <Divider class="mt-8">操行分加减</Divider>
+                <CreditUpdateTable :allowCreate="allowCreateCU" :allowUpdate="allowUpdateCU"
+                    :allowDelete="allowDeleteCU" v-model:credit="credit" v-model:creditUpdates="creditUpdates"
+                    :allowOprationStudents="[student]" />
             </CardContent>
         </Card>
     </div>
@@ -28,7 +33,7 @@
 <script lang="ts" setup>
 import { useRoute } from 'vue-router';
 import type { CreditUpdate } from '~/types/credit';
-import type { Student } from '~/types/student';
+import type { Student, Task } from '~/types/student';
 
 const route = useRoute()
 
@@ -37,18 +42,30 @@ if (typeof studentName == 'object') {
     studentName = studentName[0]
 }
 
-const [allowCreate, allowUpdate, allowDelete, students, credit, creditUpdates] = await Promise.all([
+const [allowCreateCU, allowUpdateCU, allowDeleteCU, students, credit, creditUpdates] = [
     checkPermission(`/asmre/credit/${studentName}`, 'create'),
     checkPermission(`/asmre/credit/${studentName}`, 'write'),
     checkPermission(`/asmre/credit/${studentName}`, 'delete'),
     useCustomFetch(`/student/by/name/${studentName}`).data as Ref<Student[]>,
     useCustomFetch(`/credit/${studentName}/credit`).data as Ref<number>,
     useCustomFetch(`/credit/${studentName}`).data as Ref<CreditUpdate[]>
-])
+]
 
 const student = computed(() => {
     if (students.value == undefined) {
         return undefined
     } else return students.value[0]
 })
+
+const [allowCreateTask, tasks] = [
+    checkPermission(`/asmre/task`, 'create'),
+    useCustomFetch(`/task/by/student/name/${studentName}`).data as Ref<Task[]>
+    // useFetch(`https://asmre.api.xycode.club/task/`).data
+]
+
+if (process.server) {
+    console.log('server', tasks)
+} else {
+    console.log('client', tasks)
+}
 </script>

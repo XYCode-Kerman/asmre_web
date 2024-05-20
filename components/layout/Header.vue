@@ -2,7 +2,8 @@
     <Menubar>
         <MenubarMenu>
             <NuxtLink to="/">
-                <MenubarTrigger>Atomic Student Manager - Reborn</MenubarTrigger>
+                <MenubarTrigger class="max-w-32 text-[0.7rem] md:max-w-none md:text-base">Atomic Student Manager -
+                    Reborn</MenubarTrigger>
             </NuxtLink>
         </MenubarMenu>
 

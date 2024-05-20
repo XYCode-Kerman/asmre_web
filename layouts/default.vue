@@ -8,7 +8,7 @@
 
         <LayoutWaterMark />
 
-        <div class="right-4 top-2 fixed text-xs opacity-50 z-50">
+        <div class="right-4 top-2 fixed text-xs opacity-50 z-50 pointer-events-none">
             <div>{{ generated_time }}</div>
         </div>
 

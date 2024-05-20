@@ -1,5 +1,5 @@
 <template>
-    <div class="grid grid-cols-4 gap-4" v-if="classes != undefined">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" v-if="classes != undefined">
         <!-- 班级列表 -->
         <Card v-for="item in classes" :key="item.id || item.name">
             <CardHeader>

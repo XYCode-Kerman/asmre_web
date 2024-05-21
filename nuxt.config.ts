@@ -13,7 +13,8 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      baseURL: process.env.BACKEND_BASE_URL || 'https://asmre.api.xycode.club/'
+      baseURL: process.env.BACKEND_BASE_URL || 'https://asmre.api.xycode.club/',
+      clarity_id: process.env.CLARITY_ID || 'test'
     }
   },
 

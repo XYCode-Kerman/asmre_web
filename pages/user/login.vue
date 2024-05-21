@@ -39,7 +39,7 @@ let username = ref('')
 let password = ref('')
 
 async function login() {
-    const resp = await useCustomFetch(`/user/login?username=${username.value}&password=${password.value}`, {
+    const resp = await useCustomFetch(`/user/login?username=${username.value}&password=${hashPassword(password.value)}`, {
         method: 'POST'
     })
 

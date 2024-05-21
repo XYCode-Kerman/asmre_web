@@ -8,11 +8,11 @@
                     <Button v-if="allowDelete" class="bg-red-500 hover:bg-red-600"
                         @click="onDelete(task.id)">删除</Button>
 
-                    <Button v-if="allowWrite" @click="updateMode = !updateMode" :class="{
-                        'bg-lime-600 hover:bg-lime-700': updateMode,
-                        'bg-blue-600 hover:bg-blue-700': !updateMode,
+                    <Button v-if="allowWrite" @click="editMode = !editMode" :class="{
+                        'bg-lime-600 hover:bg-lime-700': editMode,
+                        'bg-blue-600 hover:bg-blue-700': !editMode,
                     }">
-                        <span v-if="updateMode">退出</span>
+                        <span v-if="editMode">退出</span>
                         <span v-else>进入</span>
                         更改
                     </Button>
@@ -35,14 +35,14 @@
 
                     <TableRow>
                         <TableCell class="font-bold">内容</TableCell>
-                        <TableCell><Textarea @change="writeChanges(task.id, task)" :disabled="!updateMode"
+                        <TableCell><Textarea @change="writeChanges(task.id, task)" :disabled="!editMode"
                                 v-model="task.content" /></TableCell>
                     </TableRow>
 
                     <TableRow>
                         <TableCell class="font-bold">截止日期</TableCell>
                         <TableCell>
-                            <Input @change="writeChanges(task.id, task)" :disabled="!updateMode" type="datetime-local"
+                            <Input @change="writeChanges(task.id, task)" :disabled="!editMode" type="datetime-local"
                                 v-model="task.deadline" />
                         </TableCell>
                     </TableRow>
@@ -50,7 +50,7 @@
                     <TableRow>
                         <TableCell class="font-bold">完成</TableCell>
                         <TableCell class="flex items-center gap-4">
-                            <Checkbox @change="writeChanges(task.id, task)" :disabled="!updateMode"
+                            <Checkbox @change="writeChanges(task.id, task)" :disabled="!editMode"
                                 v-model="task.completed" /> {{ task.completed }}
                         </TableCell>
                     </TableRow>
@@ -94,7 +94,7 @@ const props = defineProps({
 
 const allowDelete = checkPermission(`/asmre/task/${props.task.id}`, 'delete')
 const allowWrite = checkPermission(`/asmre/task/${props.task.id}`, 'write')
-const updateMode = ref(false)
+const editMode = ref(false)
 
 async function onDelete(taskId: string | undefined) {
     // 特判
